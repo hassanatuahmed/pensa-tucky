@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:achieve_takehome_test/providers/AssetsProvider.dart';
 import 'package:achieve_takehome_test/providers/BaseProvider.dart';
+import 'package:achieve_takehome_test/core/data/coinbase_asset.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +32,6 @@ class _AssetsPageState extends State<AssetsPage> {
       didBuild(context);
     });
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -115,14 +116,25 @@ class _AssetsPageState extends State<AssetsPage> {
               return _assetsProvider.fetchAssets(refresh: true);
             },
             child: Builder(
+              // ignore: missing_return
               builder: (context) {
                 /// TODO: Rework this to show fetched Assets
-                
-
-                return ListTile(
-                  title: Text("hello"),
-                  subtitle: Text("sub"),
-                );
+                if (snapshot.hasData) {
+                  List<CoinCapAsset> data = snapshot.data as List;
+                  return ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          height: 75,
+                          color: Colors.white,
+                          child: Center(
+                            child: Text(data[index].name),
+                          ),
+                        );
+                      });
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
               },
             ),
           ),
