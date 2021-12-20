@@ -120,15 +120,15 @@ class _AssetsPageState extends State<AssetsPage> {
               builder: (context) {
                 /// TODO: Rework this to show fetched Assets
                 if (snapshot.hasData) {
-                  List<CoinCapAsset> data = snapshot.data as List;
+                  AssetsProviderEvent data = snapshot.data;
                   return ListView.builder(
-                      itemCount: data.length,
+                      itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 75,
                           color: Colors.white,
                           child: Center(
-                            child: Text(data[index].name),
+                            child: Text(data.data()['title']),
                           ),
                         );
                       });
