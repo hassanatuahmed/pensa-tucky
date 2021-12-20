@@ -30,12 +30,14 @@ class _AssetsPageState extends State<AssetsPage> {
       didBuild(context);
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
     final _themeData = Theme.of(context);
     final _isLight = _themeData.brightness == Brightness.light;
     _assetsProvider = Provider.of<AssetsProvider>(context, listen: false);
+    //final assetsProvider = Provider.of<AssetsProvider>(context, listen: false);
 
     return StreamBuilder<AssetsProviderEvent>(
       stream: _assetsProvider.stream,
@@ -115,9 +117,11 @@ class _AssetsPageState extends State<AssetsPage> {
             child: Builder(
               builder: (context) {
                 /// TODO: Rework this to show fetched Assets
+                
 
-                return Center(
-                  child: Text('Fetch & Show Assets'),
+                return ListTile(
+                  title: Text("hello"),
+                  subtitle: Text("sub"),
                 );
               },
             ),

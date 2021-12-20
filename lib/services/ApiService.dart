@@ -32,8 +32,13 @@ class ApiService {
 
     if (!_netClient.requestIsSuccessFul(_result)) {
       throw NetworkError(_requestBody);
+    } 
+    
+    /// TODO: Return the results
+    else {
+      return _requestBody;
     }
 
-    /// TODO: Return the results
+    
   }
 }
