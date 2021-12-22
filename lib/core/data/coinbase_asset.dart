@@ -7,14 +7,14 @@ class CoinCapAsset {
   final double priceUsd;
   final double marketCapUsd;
 
-  CoinCapAsset({this.name, this.priceUsd, this.marketCapUsd});
-  factory CoinCapAsset.fromJson(Map<String, dynamic> json) {
-    return CoinCapAsset(
-      name: json['name'],
-      priceUsd:json['priceUsd'],
-      marketCapUsd:json['marketCapUsd'],
+  CoinCapAsset(this.name, this.priceUsd, this.marketCapUsd);
+  // factory CoinCapAsset.fromJson(Map<String, dynamic> json) {
+  //   return CoinCapAsset(
+  //     name: json['name'],
+  //     priceUsd:json['priceUsd'],
+  //     marketCapUsd:json['marketCapUsd'],
 
 
-    );
-  }
+  //   );
+  // }
 }

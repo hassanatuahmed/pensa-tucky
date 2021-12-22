@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:achieve_takehome_test/providers/AssetsProvider.dart';
 import 'package:achieve_takehome_test/providers/BaseProvider.dart';
-import 'package:achieve_takehome_test/core/data/coinbase_asset.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +36,6 @@ class _AssetsPageState extends State<AssetsPage> {
     final _themeData = Theme.of(context);
     final _isLight = _themeData.brightness == Brightness.light;
     _assetsProvider = Provider.of<AssetsProvider>(context, listen: false);
-    //final assetsProvider = Provider.of<AssetsProvider>(context, listen: false);
 
     return StreamBuilder<AssetsProviderEvent>(
       stream: _assetsProvider.stream,
@@ -116,25 +113,12 @@ class _AssetsPageState extends State<AssetsPage> {
               return _assetsProvider.fetchAssets(refresh: true);
             },
             child: Builder(
-              // ignore: missing_return
               builder: (context) {
                 /// TODO: Rework this to show fetched Assets
-                if (snapshot.hasData) {
-                  AssetsProviderEvent data = snapshot.data;
-                  return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 75,
-                          color: Colors.white,
-                          child: Center(
-                            child: Text(data.data()['title']),
-                          ),
-                        );
-                      });
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
+
+                return Center(
+                  child: Text('Fetch & Show Assets'),
+                );
               },
             ),
           ),

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:achieve_takehome_test/providers/BaseProvider.dart';
@@ -7,7 +6,6 @@ import 'package:achieve_takehome_test/core/data/coinbase_asset.dart';
 import 'package:achieve_takehome_test/utils/network_error.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
-
 
 class AssetsProviderEvent<T> {
   final ProviderState state;
@@ -41,10 +39,17 @@ class AssetsProvider extends BaseProvider<AssetsProviderEvent> {
       //http.get(url);
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        List jsonResponse = json.decode(response.body);
-        jsonResponse
-            .map((data) => CoinCapAsset.fromJson(data))
-            .toList();
+        var jsonResponse = json.decode(response.body);
+        List<CoinCapAsset> data = [];
+        for (var u in jsonResponse) {
+          CoinCapAsset info = CoinCapAsset(
+            u['name'],
+            u['priceUsd'],
+            u['marketCapUsd'],
+          );
+           data.add(info);
+        }
+       
       } else {
         throw Exception('Unexpected error occured');
       }
