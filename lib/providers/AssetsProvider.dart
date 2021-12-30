@@ -15,6 +15,8 @@ class AssetsProviderEvent<T> {
     this.data,
     @required this.state,
   });
+
+  get length => null;
 }
 
 class AssetsProvider extends BaseProvider<AssetsProviderEvent> {
@@ -40,21 +42,18 @@ class AssetsProvider extends BaseProvider<AssetsProviderEvent> {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body);
-        List<CoinCapAsset> data = [];
-        for (var u in jsonResponse) {
-          CoinCapAsset info = CoinCapAsset(
-            u['name'],
-            u['priceUsd'],
-            u['marketCapUsd'],
-          );
-           data.add(info);
-        }
-       
+        var jsonMap = json.decode(jsonResponse);
+
+        var coinCapAsset = Data.fromJson(jsonMap);
+        return coinCapAsset;
       } else {
         throw Exception('Unexpected error occured');
       }
 
+      // ignore: dead_code
       addEvent(AssetsProviderEvent(state: ProviderState.SUCCESS));
+      notifyListeners();
+      //return coinCapAsset;
     } on NetworkError catch (e) {
       addEvent(AssetsProviderEvent<NetworkError>(
         state: ProviderState.ERROR,

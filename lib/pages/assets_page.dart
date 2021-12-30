@@ -37,8 +37,8 @@ class _AssetsPageState extends State<AssetsPage> {
     final _isLight = _themeData.brightness == Brightness.light;
     _assetsProvider = Provider.of<AssetsProvider>(context, listen: false);
 
-    return StreamBuilder<AssetsProviderEvent>(
-      stream: _assetsProvider.stream,
+    return FutureBuilder(
+      future: _assetsProvider.fetchAssets(),
       builder: (context, snapshot) {
         final _isLoading = snapshot.data?.state == ProviderState.LOADING;
 
@@ -113,14 +113,28 @@ class _AssetsPageState extends State<AssetsPage> {
               return _assetsProvider.fetchAssets(refresh: true);
             },
             child: Builder(
+              // ignore: missing_return
               builder: (context) {
-                /// TODO: Rework this to show fetched Assets
-
-                return Center(
-                  child: Text('Fetch & Show Assets'),
+                return Container(
+                  child:(snapshot.hasData)
+                  ? ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text("${snapshot.data.data.name}"),
+                          subtitle: Text("${snapshot.data.data.priceUsd}"),
+                          trailing: Text("${snapshot.data.data.marketCapUsd}"),
+                        );
+                      }):Text("no data"),
+                
+          
                 );
+                
+
+                /// TODO: Rework this to show fetched Assets
               },
-            ),
+            
+          ),
           ),
         );
       },
