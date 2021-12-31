@@ -27,7 +27,7 @@ class AssetsProvider extends BaseProvider<AssetsProviderEvent> {
   }) : _apiService = apiService;
 
   Future<void> fetchAssets({
-    final url = 'api.coincap.io/v2/assets',
+    final url = 'https://api.coincap.io/v2/assets',
     bool refresh = false,
     String search,
     int limit = 30,
@@ -37,23 +37,31 @@ class AssetsProvider extends BaseProvider<AssetsProviderEvent> {
 
     try {
       /// TODO: Fetch assets from Coinbase
-      ///
-      //http.get(url);
+
       final response = await http.get(url);
+
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body);
-        var jsonMap = json.decode(jsonResponse);
 
-        var coinCapAsset = Data.fromJson(jsonMap);
-        return coinCapAsset;
-      } else {
-        throw Exception('Unexpected error occured');
+        if (jsonResponse == null) {
+          return;
+        }
+
+        List<Data> loadedData = [];
+        for (var u in jsonResponse) {
+          Data btcData = Data(
+            name:u['name'],
+            priceUsd:u['priceUsd'],
+            marketCapUsd:u['marketCapUsd'],
+          );
+          loadedData.add(btcData);
+        }
+        print("hello");
+
+        return loadedData;
       }
 
-      // ignore: dead_code
-      addEvent(AssetsProviderEvent(state: ProviderState.SUCCESS));
-      notifyListeners();
-      //return coinCapAsset;
+      // addEvent(AssetsProviderEvent(state: ProviderState.SUCCESS));
     } on NetworkError catch (e) {
       addEvent(AssetsProviderEvent<NetworkError>(
         state: ProviderState.ERROR,

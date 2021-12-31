@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:achieve_takehome_test/core/data/coinbase_asset.dart';
 import 'package:achieve_takehome_test/providers/AssetsProvider.dart';
 import 'package:achieve_takehome_test/providers/BaseProvider.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,11 @@ class _AssetsPageState extends State<AssetsPage> {
     _assetsProvider.fetchAssets();
   }
 
+  //Future<Data> _newData;
   @override
   void initState() {
     super.initState();
+    // _newData = _assetsProvider.fetchAssets();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       didBuild(context);
@@ -115,26 +118,26 @@ class _AssetsPageState extends State<AssetsPage> {
             child: Builder(
               // ignore: missing_return
               builder: (context) {
-                return Container(
-                  child:(snapshot.hasData)
-                  ? ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
+                if (snapshot.hasData) {
+                 
+                  ListView.builder(
+                      itemCount: snapshot.data.lenght,
+                      itemBuilder: (context, i) {
                         return ListTile(
-                          title: Text("${snapshot.data.data.name}"),
-                          subtitle: Text("${snapshot.data.data.priceUsd}"),
-                          trailing: Text("${snapshot.data.data.marketCapUsd}"),
+                          title: Text("${snapshot.data[i].name}"),
+                          subtitle: Text("${snapshot.data[i].priceUsd}"),
+                          trailing: Text("${snapshot.data[i].marketCapUsd}"),
                         );
-                      }):Text("no data"),
-                
-          
-                );
-                
+                      });
+                  
+                  
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
 
                 /// TODO: Rework this to show fetched Assets
               },
-            
-          ),
+            ),
           ),
         );
       },

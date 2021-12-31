@@ -64,7 +64,7 @@ class Data {
   String vwap24Hr;
   String explorer;
 
-  Data(
+  Data( 
       {this.id,
       this.rank,
       this.symbol,
@@ -78,7 +78,21 @@ class Data {
       this.vwap24Hr,
       this.explorer});
 
-    
+
+ Map<String, Data> _items = {};
+
+  Map<String, Data> get items {
+    return {..._items};
+  }
+       int get itemCount {
+    return _items.length;
+  }
+
+      List<Data> _data = [];
+
+     List<Data> get mdata {
+    return [..._data];
+  }
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
