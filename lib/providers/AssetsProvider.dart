@@ -50,13 +50,14 @@ class AssetsProvider extends BaseProvider<AssetsProviderEvent> {
         List<Data> loadedData = [];
         for (var u in jsonResponse) {
           Data btcData = Data(
-            name:u['name'],
-            priceUsd:u['priceUsd'],
-            marketCapUsd:u['marketCapUsd'],
+            name: u['name'],
+            priceUsd: u['priceUsd'],
+            marketCapUsd: u['marketCapUsd'],
           );
           loadedData.add(btcData);
         }
         print("hello");
+        notifyListeners();
 
         return loadedData;
       }
